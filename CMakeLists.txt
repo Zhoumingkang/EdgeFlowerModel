@@ -21,3 +21,15 @@ target_link_libraries( example-1 ${GTK3_LIBRARIES} )
 
 add_executable( example-2 example-2.cpp )
 target_link_libraries( example-2 ${GTK3_LIBRARIES} )
+
+add_executable( example-3 example-3.cpp )
+target_link_libraries( example-3 ${GTK3_LIBRARIES} )
+
+add_executable( example-4 example-4.cpp )
+target_link_libraries( example-4 ${GTK3_LIBRARIES} )
+add_custom_command(
+	TARGET example-4
+	DEPENDS builder.ui
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different builder.ui "$<TARGET_FILE_DIR:example-4>/builder.ui"
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
