@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project( gtk-tutorial )
+project( tegtkgl )
 
 include( CMakePrintHelpers )
 
@@ -15,9 +15,6 @@ add_definitions( ${GTK3_CFLAGS_OTHER} )
 
 find_package( X11 REQUIRED )
 include_directories( ${X11_INCLUDE_DIR} )
-
-find_package( PkgConfig REQUIRED )
-pkg_check_modules( GDK3 REQUIRED gdk-3.0 )
 
 cmake_print_variables( GDK3_INCLUDE_DIRS GDK3_LIBRARY_DIRS GDK3_CFLAGS_OTHER GDK3_LIBRARIES )
 include_directories( ${GDK3_INCLUDE_DIRS} )

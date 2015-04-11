@@ -7,7 +7,9 @@ pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory( gl )
+#add_subdirectory( gl )
+#add_subdirectory( GtkGLArea )
+add_subdirectory( external )
 
 include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
@@ -29,9 +31,8 @@ target_link_libraries( example-3 ${GTK3_LIBRARIES} )
 
 add_executable( example-4 example-4.cpp )
 target_link_libraries( example-4 ${GTK3_LIBRARIES} )
-add_custom_command(
-	TARGET example-4
-	DEPENDS builder.ui
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different builder.ui "$<TARGET_FILE_DIR:example-4>/builder.ui"
+add_custom_target( example-4-copy-resources
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different builder.ui "${PROJECT_BINARY_DIR}"
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
+add_dependencies( example-4 example-4-copy-resources )
