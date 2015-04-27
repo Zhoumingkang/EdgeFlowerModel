@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project( gtk-tutorial )
 
+include( cmakepp/cmakepp.cmake )
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 
@@ -9,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #add_subdirectory( gl )
 #add_subdirectory( GtkGLArea )
-add_subdirectory( external )
+#add_subdirectory( external )
 
 include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
