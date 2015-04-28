@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #add_subdirectory( gl )
 #add_subdirectory( GtkGLArea )
-#add_subdirectory( external )
+add_subdirectory( external )
 
 include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
