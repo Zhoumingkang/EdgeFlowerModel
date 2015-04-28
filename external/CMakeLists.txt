@@ -77,6 +77,20 @@ ExternalProject_Add( build_python
 	DEPENDS build_xz
 )
 
+ExternalProject_Add( build_cairo
+  URL "http://cairographics.org/releases/cairo-1.14.2.tar.xz"
+  BUILD_IN_SOURCE 1
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  BUILD_COMMAND ${BUILD_ENV} ${MAKE_COMMAND} ${MAKE_FLAGS}
+)
+
+ExternalProject_Add( build_glib
+  URL "http://ftp.gnome.org/pub/gnome/sources/glib/2.44/glib-2.44.0.tar.xz"
+  BUILD_IN_SOURCE 1
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  BUILD_COMMAND ${BUILD_ENV} ${MAKE_COMMAND} ${MAKE_FLAGS}
+)
+
 ExternalProject_Add( build_gobject-introspection
   DEPENDS build_glib
   URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.44/gobject-introspection-1.44.0.tar.xz"
