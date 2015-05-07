@@ -42,9 +42,17 @@ add_custom_target( example-4-copy-resources
 )
 add_dependencies( example-4 example-4-copy-resources )
 
+
+configure_file( "exampleapp.gresource.xml.in" "${PROJECT_BINARY_DIR}/exampleapp.gresource.xml" )
+add_custom_command( OUTPUT ${PROJECT_BINARY_DIR}/resources.c
+    COMMAND glib-compile-resources "${PROJECT_BINARY_DIR}/exampleapp.gresource.xml" --target="${PROJECT_BINARY_DIR}/resources.c" --generate-source
+    DEPENDS "${PROJECT_BINARY_DIR}/exampleapp.gresource.xml"
+)
+
 add_executable( example-5
     example-5.c
     exampleapp.h exampleapp.c
     exampleappwin.h exampleappwin.c
+    ${PROJECT_BINARY_DIR}/resources.c
 )
 target_link_libraries( example-5 ${GTK3_LIBRARIES} )
