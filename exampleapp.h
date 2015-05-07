@@ -1,5 +1,4 @@
-#ifndef __EXAMPLEAPP_H
-#define __EXAMPLEAPP_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -14,6 +13,3 @@ typedef struct _ExampleAppClass  ExampleAppClass;
 
 GType           example_app_get_type    (void);
 ExampleApp     *example_app_new         (void);
-
-
-#endif /* __EXAMPLEAPP_H */

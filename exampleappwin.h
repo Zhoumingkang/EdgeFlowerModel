@@ -1,5 +1,4 @@
-#ifndef __EXAMPLEAPPWIN_H
-#define __EXAMPLEAPPWIN_H
+#pragma once
 
 #include <gtk/gtk.h>
 #include "exampleapp.h"
@@ -17,6 +16,3 @@ GType                   example_app_window_get_type     (void);
 ExampleAppWindow       *example_app_window_new          (ExampleApp *app);
 void                    example_app_window_open         (ExampleAppWindow *win,
                                                          GFile            *file);
-
-
-#endif /* __EXAMPLEAPPWIN_H */
