@@ -26,10 +26,11 @@ if ( NOT DEFINED EXTERNAL_LINKING_DIR )
 	set( EXTERNAL_LINKING_DIR ${EXTERNAL_PREFIX_DIR}/lib ${EXTERNAL_PREFIX_DIR}/bin CACHE internal "" FORCE )
 endif()
 
+set(MAKE_FLAGS --silent)
 include(ProcessorCount)
 ProcessorCount(N)
 if(NOT N EQUAL 0)
-  set(MAKE_FLAGS -j${N})
+  set(MAKE_FLAGS ${MAKE_FLAGS} -j${N})
 endif()
 
 set( CONFIGURE_COMMAND "./configure" )

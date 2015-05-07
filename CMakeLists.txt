@@ -41,3 +41,10 @@ add_custom_target( example-4-copy-resources
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
 add_dependencies( example-4 example-4-copy-resources )
+
+add_executable( example-5
+    example-5.c
+    exampleapp.h exampleapp.c
+    exampleappwin.h exampleappwin.c
+)
+target_link_libraries( example-5 ${GTK3_LIBRARIES} )
