@@ -48,6 +48,7 @@ add_custom_command( OUTPUT ${PROJECT_BINARY_DIR}/resources.c ${PROJECT_BINARY_DI
     COMMAND glib-compile-resources "exampleapp.gresource.xml" --target="${PROJECT_BINARY_DIR}/resources.c" --generate-source
     COMMAND glib-compile-resources "exampleapp.gresource.xml" --target="${PROJECT_BINARY_DIR}/resources.h" --generate-header
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    DEPENDS exampleapp.gresource.xml window.ui app-menu.ui
 )
 
 add_executable( example-5
