@@ -45,29 +45,22 @@ execute_process(
 )
 message( "PKG_CONFIG_BUILD_IN_SEARCH_PATH = ${PKG_CONFIG_BUILD_IN_SEARCH_PATH}" )
 
-ExternalProject_Add( build_xz
-  URL "http://tukaani.org/xz/xz-5.2.1.tar.xz"
-  BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
-	DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
-)
+#ExternalProject_Add( build_xz
+#  URL "http://tukaani.org/xz/xz-5.2.1.tar.xz"
+#  BUILD_IN_SOURCE 1
+#  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+#  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+#)
 
-ExternalProject_Add( build_python
-	DEPENDS build_xz
-  URL "https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz"
-  BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
-	DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
-)
+#ExternalProject_Add( build_python
+#  DEPENDS build_xz
+#  URL "https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz"
+#  BUILD_IN_SOURCE 1
+#  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+#  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+#)
 
-ExternalProject_Add( build_cairo
-  URL "http://cairographics.org/releases/cairo-1.14.2.tar.xz"
-  BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
-	DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
-)
-
-#ExternalProject_Add( build_fam
+##ExternalProject_Add( build_fam
 #  URL "http://oss.sgi.com/projects/fam/download/fam-latest.tar.gz"
 #  BUILD_IN_SOURCE 1
 #  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
@@ -76,57 +69,69 @@ ExternalProject_Add( build_cairo
 #)
 
 ExternalProject_Add( build_glib
-#	DEPENDS build_fam
+#  DEPENDS build_fam
   URL "http://ftp.gnome.org/pub/gnome/sources/glib/2.44/glib-2.44.0.tar.xz"
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
-	DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-static --disable-libelf --disable-compile-warnings --disable-dtrace
+  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
+#ExternalProject_Add( build_cairo
+#  DEPENDS build_glib
+#  URL "http://cairographics.org/releases/cairo-1.14.2.tar.xz"
+#  BUILD_IN_SOURCE 1
+#  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --disable-gl --enable-quartz --enable-quartz-font --enable-quartz-image --disable-silent-rules --disable-symbol-lookup --disable-xlib --disable-xlib-xcb --disable-xcb --disable-xcb-shm --without-x --enable-ft --enable-pdf --enable-png --enable-ps --enable-script --enable-svg --enable-tee --enable-xml ac_cv_prog_GS="" ac_cv_lib_lzo2_lzo2a_decompress=no
+#  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+#)
+
 ExternalProject_Add( build_gobject-introspection
-  DEPENDS build_glib
-  URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.44/gobject-introspection-1.44.0.tar.xz"
+  DEPENDS build_glib #build_cairo
+  #URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.44/gobject-introspection-1.44.0.tar.xz"
+  URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.42/gobject-introspection-1.42.0.tar.xz"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
-	DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
 ExternalProject_Add( build_pango
-  DEPENDS build_glib
+  DEPENDS build_glib build_gobject-introspection #build_cairo
   URL "http://ftp.gnome.org/pub/gnome/sources/pango/1.36/pango-1.36.8.tar.xz"
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-static --disable-silent-rules --without-x
   DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
 ExternalProject_Add( build_gdk-pixbuf
-  DEPENDS build_glib
-  URL "http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.30/gdk-pixbuf-2.30.8.tar.xz"
+  DEPENDS build_glib build_gobject-introspection
+  #URL "http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.30/gdk-pixbuf-2.30.8.tar.xz"
+  URL "http://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.31/gdk-pixbuf-2.31.3.tar.xz"
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} #--with-libjasper
   DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
 ExternalProject_Add( build_atk
-  DEPENDS build_glib
-  URL "http://ftp.gnome.org/pub/gnome/sources/atk/2.16/atk-2.16.0.tar.xz"
+  DEPENDS build_glib build_gobject-introspection
+  #URL "http://ftp.gnome.org/pub/gnome/sources/atk/2.16/atk-2.16.0.tar.xz"
+  URL "http://ftp.gnome.org/pub/gnome/sources/atk/2.14/atk-2.14.0.tar.xz"
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-static --disable-silent-rules
   DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
 ExternalProject_Add( build_gtk
-  DEPENDS build_glib build_pango build_gdk-pixbuf build_atk build_gobject-introspection build_cairo
-  URL "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.16/gtk+-3.16.1.tar.xz"
+  DEPENDS build_glib build_gdk-pixbuf build_gobject-introspection build_pango build_atk
+  #URL "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.16/gtk+-3.16.1.tar.xz"
+  URL "http://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.14/gtk+-3.14.12.tar.xz"
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR}
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-static --disable-glibtest --enable-introspection --disable-cloudprint --disable-wayland-backend --disable-schemas-compile gio_can_sniff=yes --disable-cups --enable-quartz-backend
   DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
-ExternalProject_Add( build_gtk-mac-bundler
-  DEPENDS build_gtk
-  URL "http://ftp.acc.umu.se/pub/gnome/sources/gtk-mac-bundler/0.7/gtk-mac-bundler-0.7.4.tar.xz"
-  BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ${CMAKE_COMMAND} -E echo configure_gtk-mac-bundler
-  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
-)
+#ExternalProject_Add( build_gtk-mac-bundler
+#  DEPENDS build_gtk
+#  URL "http://ftp.acc.umu.se/pub/gnome/sources/gtk-mac-bundler/0.7/gtk-mac-bundler-0.7.4.tar.xz"
+#  BUILD_IN_SOURCE 1
+#  CONFIGURE_COMMAND ${CMAKE_COMMAND} -E echo configure_gtk-mac-bundler
+#  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+#)
