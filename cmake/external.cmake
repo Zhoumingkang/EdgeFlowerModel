@@ -76,16 +76,16 @@ ExternalProject_Add( build_glib
   DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
 )
 
-#ExternalProject_Add( build_cairo
-#  DEPENDS build_glib
-#  URL "http://cairographics.org/releases/cairo-1.14.2.tar.xz"
-#  BUILD_IN_SOURCE 1
-#  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --disable-gl --enable-quartz --enable-quartz-font --enable-quartz-image --disable-silent-rules --disable-symbol-lookup --disable-xlib --disable-xlib-xcb --disable-xcb --disable-xcb-shm --without-x --enable-ft --enable-pdf --enable-png --enable-ps --enable-script --enable-svg --enable-tee --enable-xml ac_cv_prog_GS="" ac_cv_lib_lzo2_lzo2a_decompress=no
-#  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
-#)
+ExternalProject_Add( build_cairo
+  DEPENDS build_glib
+  URL "http://cairographics.org/releases/cairo-1.14.2.tar.xz"
+  BUILD_IN_SOURCE 1
+  CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-quartz --enable-quartz-font --enable-quartz-image
+  DOWNLOAD_NO_PROGRESS 1 LOG_DOWNLOAD 0 LOG_UPDATE 0 LOG_CONFIGURE 0 LOG_BUILD 0 LOG_TEST 0 LOG_INSTALL 0
+)
 
 ExternalProject_Add( build_gobject-introspection
-  DEPENDS build_glib #build_cairo
+  DEPENDS build_glib build_cairo
   #URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.44/gobject-introspection-1.44.0.tar.xz"
   URL "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.42/gobject-introspection-1.42.0.tar.xz"
   BUILD_IN_SOURCE 1
@@ -94,7 +94,7 @@ ExternalProject_Add( build_gobject-introspection
 )
 
 ExternalProject_Add( build_pango
-  DEPENDS build_glib build_gobject-introspection #build_cairo
+  DEPENDS build_glib build_gobject-introspection build_cairo
   URL "http://ftp.gnome.org/pub/gnome/sources/pango/1.36/pango-1.36.8.tar.xz"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ${BUILD_ENV} ${CONFIGURE_COMMAND} --quiet --prefix=${EXTERNAL_PREFIX_DIR} --exec-prefix=${EXTERNAL_PREFIX_DIR} --enable-static --disable-silent-rules --without-x
